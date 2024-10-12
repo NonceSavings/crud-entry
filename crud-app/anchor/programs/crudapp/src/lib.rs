@@ -47,6 +47,7 @@ pub mod crudapp {
 }
 
 #[account]
+#[derive(InitSpace)]
 pub struct JournalEntryState{
   pub owner:Pubkey,
   pub title:String,
@@ -61,7 +62,7 @@ pub struct CreateEntry<'info>{
     seeds=[title.as_bytes(),owner.key().as_ref()],
     bump,
     payer=owner,
-    space= 8 + 32 + 4 + title.len() + 4 + message.len()
+    space= 8 + JournalEntryState::INIT_SPACE
   )]
   pub journal_entry:Account<'info,JournalEntryState>
   #[account(mut)]
